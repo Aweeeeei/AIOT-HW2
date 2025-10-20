@@ -1,0 +1,45 @@
+Modifications applied to 7114056007_hw2.ipynb:
+
+1) Setup cell (installation instructions):
+   - Added statsmodels, nbclient to the pip install list.
+
+2) Feature selection cell (Lasso):
+   - Added fallback when selected_mask is empty: keep top-k (k=min(10, n_features)).
+   - Ensured selected_mask is an explicit boolean numpy array.
+
+3) Modeling cell:
+   - Import LinearRegression at top of the cell to avoid NameError.
+   - Replaced ColumnSelector implementation with a more robust version that handles sparse arrays and pandas DataFrame inputs.
+
+4) Evaluation cell:
+   - Replaced direct np.linalg.inv(X^T X) with a safer approach using condition-number check and np.linalg.pinv as fallback.
+   - Kept the original OLS-formula prediction interval calculation.
+   - Added statsmodels OLS fit to print full summary(), a coefficients table with std err and 95% CI, and to compute statsmodels obs_ci prediction intervals (if available) and overwrite lower/upper for plotting.
+
+Notes:
+- If statsmodels is not installed, the statsmodels step will print an error and the notebook will continue using the OLS-formula intervals.
+- Recommended to run: pip install -U scikit-learn pandas matplotlib nbformat scipy statsmodels nbclient
+
+Timestamp: 2025-10-20
+Additional note: Edits performed by assistant include adding imports and stability checks. Please review before submitting.
+Modifications log for 7114056007_hw2.ipynb
+Date: 2025-10-20
+
+1) 2025-10-20  -- Added dataset source and links to the top markdown cell to meet assignment requirement #1 (Dataset source). Included both Kaggle example link and UCI dataset link.
+
+2) 2025-10-20  -- Set OneHotEncoder(..., sparse=False) in the preprocessing ColumnTransformer to ensure dense output and allow feature name extraction and downstream numpy operations.
+
+3) 2025-10-20  -- Fixed ValueError in evaluation cell: when only one feature is selected, selected slices could be 1-D; added reshape to force 2-D column arrays before np.hstack.
+
+Notes:
+- I did not change modeling logic or feature selection strategy beyond the compatibility fixes above.
+- If you want, I can now run the notebook to completion and append model metrics and generated plot file names to this log.
+
+4) 2025-10-20  -- Replaced RFE-based feature selection with LassoCV-based automatic selection (non-zero coefficients determine selected features). The original RFE code is preserved as commented lines in the notebook. This avoids hard-coding a fixed number of features (10) and lets cross-validated Lasso determine sparsity.
+
+5) 2025-10-20  -- Applied SelectFromModel(lasso, threshold='median') to threshold Lasso coefficients (remove very small coefficients). Re-ran modeling: RMSE = 690.13, R2 = 0.8609. Kept this change in the notebook and verified prediction intervals and plots were generated.
+
+6) 2025-10-20  -- Added a deployment cell that saves artifacts:
+   - `selected_features.txt`, `7114056007_hw2_model.joblib`, `results_summary.json`, `predictions_with_intervals.csv` (if available), and saved plots (`scatter_actual_vs_predicted.png`, `sorted_pred_with_intervals.png`).
+
+End of log.
