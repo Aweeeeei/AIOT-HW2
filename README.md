@@ -44,6 +44,7 @@ https://www.kaggle.com/code/gauravduttakiit/bike-sharing-multiple-linear-regress
 
 ## 3. 檔案說明
 
+於 https://github.com/Aweeeeei/AIOT-HW2/tree/main 可下載所有檔案。
 - `day.csv`：原始 dataset（CSV），Notebook 會直接讀取此檔案。請確保它放在同一資料夾以便 notebook 正常執行。
 - `7114056007_hw2.ipynb`：包含資料處理、Lasso-based 特徵選擇、LinearRegression 訓練、評估與繪圖步驟（如上所述）。
 - `log.txt`：將 Chatgpt 產生的執行檔，透過 Copilot 逐步修改至符合要求的紀錄。
